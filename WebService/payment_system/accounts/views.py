@@ -19,7 +19,7 @@ def registration(request):
             current_site = get_current_site(request)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
-            activation_link = request.build_absolute_uri(reverse('activate', kwargs={'uidb64': uid, 'token': token}))
+            activation_link = request.build_absolute_uri(reverse('activation', kwargs={'uidb64': uid, 'token': token}))
             subject = 'Activate Your Account'
             message = 'Activate your account using the following link: ' + activation_link
             send_mail(subject, message, 'noreply@example.com', [user.email])
@@ -49,7 +49,7 @@ def login_view(request):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
-            return redirect('home')
+            return redirect('dashboard')
     return render(request, 'login.html')
 
 

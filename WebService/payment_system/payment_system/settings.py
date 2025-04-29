@@ -24,7 +24,9 @@ SECRET_KEY = 'django-insecure-1*26&ct4oguux4e89l!=hnbx=f*13**+iq_m6lt236lrbq6m)+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '10.0.2.2',
+    '127.0.0.1', ]
 
 # Application definition
 
@@ -39,6 +41,7 @@ INSTALLED_APPS = [
     'external_systems',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -60,6 +63,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
