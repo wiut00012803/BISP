@@ -1,9 +1,30 @@
-<html>
-<body>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Register</button>
-</form>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-4">
+    <div class="card p-4">
+      <h3 class="text-center mb-4">Register</h3>
+      <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          {{ form.email.label_tag }}
+          {{ form.email }}
+          {{ form.email.errors }}
+        </div>
+        <div class="mb-3">
+          {{ form.password.label_tag }}
+          {{ form.password }}
+          {{ form.password.errors }}
+        </div>
+        <div class="mb-3">
+          {{ form.confirm_password.label_tag }}
+          {{ form.confirm_password }}
+          {{ form.confirm_password.errors }}
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Register</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

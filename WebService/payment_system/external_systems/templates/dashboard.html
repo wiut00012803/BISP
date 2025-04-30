@@ -1,56 +1,83 @@
-<html>
-<body>
-<h1>Main Page</h1>
+{% extends 'base.html' %}
+{% block title %}Transfer{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <h4 class="mb-4">Transfer Funds</h4>
+    <form method="post">
+      {% csrf_token %}
 
-<h2>All Cards</h2>
-<ul>
-  {% for card in full_cards %}
-  <li>
-    {{ card.platform }} – {{ card.card_type }} ({{ card.bank }})<br>
-    Card #: {{ card.card_number }}<br>
-    Balance: {{ card.balance }} | Cashback: {{ card.cashback }} | Commission: {{ card.commission }}%
-  </li>
-  {% endfor %}
-</ul>
+      {# Step 1: Ask for destination card if none yet #}
+      {% if not dest_selected %}
+        <div class="input-group mb-3">
+          <input type="text"
+                 name="destination_card_number"
+                 class="form-control"
+                 placeholder="Enter Dest Card #"
+                 maxlength="16"
+                 required>
+          <button class="btn btn-primary"
+                  type="submit"
+                  name="action" value="continue">
+            Continue
+          </button>
+        </div>
+        {% if dest_form.errors.destination_card_number %}
+          <div class="text-danger">
+            {{ dest_form.errors.destination_card_number.0 }}
+          </div>
+        {% endif %}
 
-<h2>Lookup Destination</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ dest_form.destination_card_number.label_tag }}
-  {{ dest_form.destination_card_number }}
-  {% if dest_form.errors.destination_card_number %}
-    <p style="color:red">{{ dest_form.errors.destination_card_number.0 }}</p>
-  {% endif %}
-  <button type="submit" name="action" value="continue">Continue</button>
-</form>
+      {% else %}
+        {# Step 2: Hidden carry-over of that destination #}
+        <input type="hidden"
+               name="destination_card_number"
+               value="{{ dest_form.destination_card_number.value }}">
 
-{% if dest_selected %}
-  <h2>Select Source & Transfer</h2>
-  {% if message %}<p>{{ message }}</p>{% endif %}
-  <form method="post">
-    {% csrf_token %}
-    <input type="hidden" name="destination_card_number"
-           value="{{ dest_form.destination_card_number.value }}">
-    <ul>
-      {% for card in source_cards %}
-      <li>
-        <label>
-          <input type="radio" name="source_card_number"
-                 value="{{ card.card_number }}" required>
-          {{ card.platform }} – {{ card.card_type }} ({{ card.bank }}) –
-          Card #: {{ card.card_number }} –
-          Balance: {{ card.balance }} –
-          Commission: {{ card.commission }}% –
-          Cashback: {{ card.cashback }}
-        </label>
-      </li>
-      {% endfor %}
-    </ul>
-    <p>Amount: <input type="number" name="amount" step="0.01" required></p>
-    <button type="submit" name="action" value="transfer">Transfer</button>
-  </form>
-{% endif %}
+        {# Choose source card #}
+        <ul class="list-group mb-3">
+          {% for card in source_cards %}
+          <li class="list-group-item">
+            <label>
+              <input class="form-check-input me-2"
+                     type="radio"
+                     name="source_card_number"
+                     value="{{ card.card_number }}"
+                     required>
+              {{ card.platform }} – {{ card.card_type }}
+              ({{ card.bank }}) –
+              #{{ card.card_number }} –
+              Bal: {{ card.balance }} –
+              Com: {{ card.commission }}%
+            </label>
+          </li>
+          {% endfor %}
+        </ul>
 
-<a href="{% url 'logout' %}">Logout</a>
-</body>
-</html>
+        {# Enter amount #}
+        <div class="mb-3">
+          <label class="form-label">Amount</label>
+          <input type="number"
+                 step="0.01"
+                 name="amount"
+                 class="form-control"
+                 required>
+        </div>
+
+        {# Transfer button #}
+        <button class="btn btn-primary w-100"
+                type="submit"
+                name="action" value="transfer">
+          Transfer
+        </button>
+
+        {% if message %}
+          <div class="alert alert-info mt-3">
+            {{ message }}
+          </div>
+        {% endif %}
+      {% endif %}
+    </form>
+  </div>
+</div>
+{% endblock %}

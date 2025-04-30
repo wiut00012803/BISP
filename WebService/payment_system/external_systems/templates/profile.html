@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<h4 class="mb-4">Your Cards</h4>
+<table class="table table-hover table-striped">
+  <thead class="table-primary">
+    <tr>
+      <th>Platform</th><th>Type</th><th>Bank</th>
+      <th>Number</th><th>Balance</th><th>Cashback</th>
+      <th>Commission</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for card in full_cards %}
+    <tr>
+      <td>{{ card.platform }}</td>
+      <td>{{ card.card_type }}</td>
+      <td>{{ card.bank }}</td>
+      <td>{{ card.card_number }}</td>
+      <td>{{ card.balance }}</td>
+      <td>{{ card.cashback }}</td>
+      <td>{{ card.commission }}%</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

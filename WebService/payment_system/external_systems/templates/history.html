@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}History{% endblock %}
+{% block content %}
+<h4 class="mb-4">Transfer History</h4>
+<table class="table table-hover table-striped">
+  <thead class="table-primary">
+    <tr>
+      <th>Date</th><th>From</th><th>To</th>
+      <th>Amount</th><th>Fee</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for t in history %}
+    <tr>
+      <td>{{ t.timestamp|date:"Y-m-d H:i" }}</td>
+      <td>{{ t.source_card.card_number }}</td>
+      <td>{{ t.destination_card.card_number }}</td>
+      <td>{{ t.amount }}</td>
+      <td>{{ t.fee }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

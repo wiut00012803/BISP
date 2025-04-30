@@ -1,0 +1,31 @@
+body {
+  background-color: #f0f8ff;
+  color: #003366;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+.navbar {
+  background-color: #0059b3;
+}
+.navbar-brand,
+.nav-link {
+  color: #ffffff !important;
+}
+.nav-link.active {
+  background-color: #004080;
+  border-radius: 4px;
+}
+.card {
+  border-color: #0059b3;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.btn-primary {
+  background-color: #0066cc;
+  border-color: #005bb5;
+}
+.btn-primary:hover {
+  background-color: #005bb5;
+  border-color: #004494;
+}
+.table-primary {
+  background-color: #cfe2ff;
+}
