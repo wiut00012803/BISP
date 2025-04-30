@@ -1,14 +1,16 @@
 from django.urls import path
-from rest_framework.authtoken.views import obtain_auth_token
-
-from .views import (PaymentCardList, SourceOptions, TransferMoney, TransactionList, LocationList, OnSitePay,
-                    OnSiteHistory, )
-
-urlpatterns = [path('login/', obtain_auth_token, name='api_login'),
-    path('cards/', PaymentCardList.as_view(), name='api_cards'),
+from external_systems.views import (
+    PaymentCardList, TransferMoney,
+    LocationList, OnSitePay, OnSiteHistory,
+    TransactionList, ProfileApi, SourceOptions
+)
+urlpatterns = [
     path('source-options/', SourceOptions.as_view(), name='api_source_options'),
+    path('cards/', PaymentCardList.as_view(), name='api_cards'),
     path('transfer/', TransferMoney.as_view(), name='api_transfer'),
-    path('transactions/', TransactionList.as_view(), name='transactions'),
     path('locations/', LocationList.as_view(), name='api_locations'),
-    path('pay/', OnSitePay.as_view(), name='api_on_site_pay'),
-    path('pay/history/', OnSiteHistory.as_view(), name='api_on_site_history'), ]
+    path('pay/', OnSitePay.as_view(), name='api_onsite'),
+    path('pay/history/', OnSiteHistory.as_view(), name='api_onsite_history'),
+    path('transactions/', TransactionList.as_view(), name='api_transactions'),
+    path('profile/', ProfileApi.as_view(), name='api_profile'),
+]

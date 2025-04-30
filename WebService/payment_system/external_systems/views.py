@@ -2,6 +2,7 @@ import random
 from decimal import Decimal
 
 from django.shortcuts import render, redirect
+from external_systems.serializers import PaymentCardSerializer
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -10,6 +11,12 @@ from .forms import DestinationForm
 from .models import PaymentCard, Transaction, Platform, Location, PlatformLocation, OnSiteTransaction
 from .serializers import LocationSerializer, OnSiteTransactionSerializer, PaymentCardSerializer, TransferSerializer, \
     TransactionSerializer
+
+
+class ProfileApi(APIView):
+    def get(self, request):
+        cards = request.user.paymentcard_set.all()
+        return Response(PaymentCardSerializer(cards, many=True).data)
 
 
 def profile_view(request):
